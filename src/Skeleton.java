@@ -5,18 +5,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Skeleton {
-    // attributs privés nécessaires au fonctionnement
-    private static final Calculatrice calculatrice = new Calculatrice();
-    private static ServerSocket serverSocket;
-    private static int port;
+    private final int port;
 
     public Skeleton(int port){ // Constructeur de la classe
-        Skeleton.port = port; // définition du port de service par le constructeur
+        this.port = port; // définition du port de service par le constructeur
     }
 
     public void main() throws IOException, ClassNotFoundException { // Fonction pricipale gérant le serveur
         System.out.println("Start server on port : " + port);
-        serverSocket = new ServerSocket(port);
+        // attributs privés nécessaires au fonctionnement
+        ServerSocket serverSocket = new ServerSocket(port);
         while(true){
 
             System.out.println("Waiting for request");
