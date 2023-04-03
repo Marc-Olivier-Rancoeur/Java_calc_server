@@ -20,28 +20,26 @@ public class Skeleton {
             System.out.println("Waiting for request");
             Socket socket = serverSocket.accept();
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-            String message = (String)inputStream.readObject();
-            System.out.println("Message received : " + message);
+            Message message = (Message)inputStream.readObject();
+            System.out.println("Message received !");
 
-            if(message.equalsIgnoreCase("exit")){
+            if(message.getCommande().equalsIgnoreCase("exit")) {
                 System.out.println("Closing server");
                 inputStream.close();
                 socket.close();
                 break;
             }
-            String commande = message.substring(0, 3);
-            String[] valeurs = message.substring(4).split("-");
 
             String resultat;
-            switch (commande) {
+            switch (message.getCommande()) {
                 case "ADD" ->
-                        resultat = Integer.toString(Calculatrice.ADD(Integer.parseInt(valeurs[0]), Integer.parseInt(valeurs[1])));
+                        resultat = Integer.toString(Calculatrice.ADD(message.getChiffre1(), message.getChiffre2()));
                 case "SUB" ->
-                        resultat = Integer.toString(Calculatrice.SUB(Integer.parseInt(valeurs[0]), Integer.parseInt(valeurs[1])));
+                        resultat = Integer.toString(Calculatrice.SUB(message.getChiffre1(), message.getChiffre2()));
                 case "MUL" ->
-                        resultat = Integer.toString(Calculatrice.MUL(Integer.parseInt(valeurs[0]), Integer.parseInt(valeurs[1])));
+                        resultat = Integer.toString(Calculatrice.MUL(message.getChiffre1(), message.getChiffre2()));
                 case "DIV" ->
-                        resultat = Float.toString(Calculatrice.DIV(Integer.parseInt(valeurs[0]), Integer.parseInt(valeurs[1])));
+                        resultat = Float.toString(Calculatrice.DIV(message.getChiffre1(), message.getChiffre2()));
                 default ->
                     resultat = "ERREUR";
             }
